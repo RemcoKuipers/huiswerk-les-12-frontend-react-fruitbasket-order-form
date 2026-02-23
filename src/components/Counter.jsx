@@ -1,10 +1,21 @@
-function Counter({label, value, onIncrease, onDecrease}) {
+function Counter({label, name, value, onChange}) {
     return (
         <article>
             <h2>{label}</h2>
-            <button type="button" onClick={onDecrease} disabled={value === 0}>-</button>
+            <button
+                type="button"
+                name={name}
+                value={-1}
+                onClick={onChange}
+                disabled={value === 0}>-
+            </button>
             <p>{value}</p>
-            <button type="button" onClick={onIncrease}>+</button>
+            <button
+                type="button"
+                name={name}
+                value={1}
+                onClick={onChange}>+
+            </button>
         </article>
     );
 }

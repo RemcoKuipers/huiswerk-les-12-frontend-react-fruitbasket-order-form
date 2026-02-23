@@ -18,10 +18,13 @@ function App() {
         kiwis: 0,
     });
 
-    function updateFruit(fruit, amount) {
+    function handleFruitChange(e) {
+
+        const {name, value} = e.target;
+
         setFruits(prev => ({
             ...prev,
-            [fruit]: Math.max(0, prev[fruit] + amount),
+            [name]: Math.max(0, prev[name] + Number(value)),
         }));
     }
 
@@ -56,26 +59,26 @@ function App() {
                 <Counter
                     label="🍓 Aardbeien"
                     value={fruits.strawberries}
-                    onIncrease={() => updateFruit("strawberries", 1)}
-                    onDecrease={() => updateFruit("strawberries", -1)}
+                    name="strawberries"
+                    onChange={handleFruitChange}
                 />
                 <Counter
                     label="🍏 Appels"
                     value={fruits.apples}
-                    onIncrease={() => updateFruit("apples", 1)}
-                    onDecrease={() => updateFruit("apples", -1)}
+                    name="apples"
+                    onChange={handleFruitChange}
                 />
                 <Counter
                     label="🍌 Bananen"
                     value={fruits.bananas}
-                    onIncrease={() => updateFruit("bananas", 1)}
-                    onDecrease={() => updateFruit("bananas", -1)}
+                    name="bananas"
+                    onChange={handleFruitChange}
                 />
                 <Counter
                     label="🥝 Kiwi's"
                     value={fruits.kiwis}
-                    onIncrease={() => updateFruit("kiwis", 1)}
-                    onDecrease={() => updateFruit("kiwis", -1)}
+                    name="kiwis"
+                    onChange={handleFruitChange}
                 />
                 <Button type="button" onClick={resetCounters}>Reset fruit</Button>
 
