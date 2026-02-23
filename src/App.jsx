@@ -1,139 +1,170 @@
-import './App.css'
+import "./App.css";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
+import Counter from "./components/Counter.jsx";
+import TextInput from "./components/TextInput.jsx";
+import RadioGroup from "./components/RadioGroup.jsx";
+import Button from "./components/Button.jsx";
+import CheckboxInput from "./components/CheckboxInput.jsx";
+
 
 function App() {
-    const {register} = useForm();
-    const [strawberries, setStrawberries] = useState(0)
-    const [bananas, setBananas] = useState(0)
-    const [apples, setApples] = useState(0)
-    const [kiwis, setKiwis] = useState(0)
+    const {register, handleSubmit, formState: {errors}, reset} = useForm();
+
+    const [fruits, setFruits] = useState({
+        strawberries: 0,
+        bananas: 0,
+        apples: 0,
+        kiwis: 0,
+    });
+
+    function updateFruit(fruit, amount) {
+        setFruits(prev => ({
+            ...prev,
+            [fruit]: Math.max(0, prev[fruit] + amount),
+        }));
+    }
 
     function resetCounters() {
-        setStrawberries(0);
-        setApples(0);
-        setBananas(0);
-        setKiwis(0);
+        setFruits({
+            strawberries: 0,
+            bananas: 0,
+            apples: 0,
+            kiwis: 0,
+        });
     }
-function handleSubmit(e) {
-        e.preventDefault();
 
-        const formData = new FormData(e.target);
-
-        const data={
-            firstName: formData.get("firstName"),
-            lastName: formData.get("lastName"),
-            age: formData.get("age"),
-            zipcode: formData.get("zipcode"),
-            deliverFrequency: formData.get("deliverFrequency"),
-            choice: formData.get("choice"),
-            suggestions: formData.get("suggestion"),
-            terms: formData.get("terms"),
-
-            fruits:{
-                strawberries,
-                bananas,
-                apples,
-                kiwis,
-            },
+    function onSubmit(formValues) {
+        const data = {
+            ...formValues,
+            fruits,
         };
+
         console.log(data);
-}
+
+        reset();
+        resetCounters();
+    }
+
+    const totalFruits = Object.values(fruits).reduce((a, b) => a + b, 0);
 
     return (
-
         <>
             <h1>Fruitmand bezorgservice</h1>
-            <section>
-                <article>
-                    <h2>🍓 Aardbeien</h2>
-                    <button type="button" disabled={strawberries === 0}
-                            onClick={() => setStrawberries(strawberries - 1)}>-
-                    </button>
-                    <p>{strawberries}</p>
-                    <button type="button" onClick={() => setStrawberries(strawberries + 1)}>+</button>
 
-                </article>
-                <article>
-                    <h2>🍏 Appels</h2>
-                    <button type="button" disabled={apples === 0} onClick={() => setApples(apples - 1)}>-</button>
-                    <p>{apples}</p>
-                    <button type="button" onClick={() => setApples(apples + 1)}>+</button>
-                </article>
-                <article>
-                    <h2>🍌 Bananen</h2>
-                    <button type="button" disabled={bananas === 0} onClick={() => setBananas(bananas - 1)}>-</button>
-                    <p>{bananas}</p>
-                    <button type="button" onClick={() => setBananas(bananas + 1)}>+</button>
-                </article>
-                <article>
-                    {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    <h2>🥝 Kiwi's</h2>
-                    <button type="button" disabled={kiwis === 0} onClick={() => setKiwis(kiwis - 1)}>-</button>
-                    <p>{kiwis}</p>
-                    <button type="button" onClick={() => setKiwis(kiwis + 1)}>+</button>
-                </article>
-                <article>
-                    <button type="button" onClick={() => resetCounters()}>Reset</button>
-                </article>
-            </section>
             <section>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="firstName-field">
-                        Voornaam
-                        <input
-                            type="text"
-                            id="firstName-field"
-                            name="firstName"
-                        />
-                    </label>
-                    <label htmlFor="lastName-field">
-                        Achternaam
-                        <input type="text"
-                        id="lastName-field"
-                        name="lastName"/>
-                    </label>
-                    <label htmlFor="age-field">
-                        Leeftijd
-                        <input type="number"
-                        id="age-field"
-                        name="age"/>
-                    </label>
-                    <label htmlFor="zipcode-field">
-                        Postcode
-                        <input type="text"
-                        id="zipcode-field"
-                        name="zipcode"/>
-                    </label>
-                    <label htmlFor="deliverFrequenty-field">
-                        Bezorgrequentie
-                        <select name="deliverFrequenty" id="deliverFrequenty-field">
-                            <option value="every week">iedere week</option>
-                            <option value="every 2 weeks">om de week</option>
-                            <option value="every month">iedere maand</option>
+                <Counter
+                    label="🍓 Aardbeien"
+                    value={fruits.strawberries}
+                    onIncrease={() => updateFruit("strawberries", 1)}
+                    onDecrease={() => updateFruit("strawberries", -1)}
+                />
+                <Counter
+                    label="🍏 Appels"
+                    value={fruits.apples}
+                    onIncrease={() => updateFruit("apples", 1)}
+                    onDecrease={() => updateFruit("apples", -1)}
+                />
+                <Counter
+                    label="🍌 Bananen"
+                    value={fruits.bananas}
+                    onIncrease={() => updateFruit("bananas", 1)}
+                    onDecrease={() => updateFruit("bananas", -1)}
+                />
+                <Counter
+                    label="🥝 Kiwi's"
+                    value={fruits.kiwis}
+                    onIncrease={() => updateFruit("kiwis", 1)}
+                    onDecrease={() => updateFruit("kiwis", -1)}
+                />
+                <Button type="button" onClick={resetCounters}>Reset fruit</Button>
+
+            </section>
+
+            <section>
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    <TextInput
+                        label="Voornaam"
+                        name="fistName"
+                        register={register}
+                        error={errors.fistName}
+                        rules={{required: "Voornaam is verplicht"}}
+                    />
+
+                    <TextInput
+                        label="Achternaam"
+                        name="lastName"
+                        register={register}
+                        error={errors.lastName}
+                        rules={{required: "Achternaam is verplicht"}}
+                    />
+
+                    <TextInput
+                        label="Leeftijd"
+                        name="age"
+                        type="number"
+                        register={register}
+                        error={errors.age}
+                        rules={{
+                            required: "Leeftijd is verplicht",
+                            valueAsNumber: true,
+                            min: {value: 18, message: "Minimale leeftijd is 18 jaar"},
+                        }}
+                    />
+
+                    <TextInput
+                        label="Postcode"
+                        name="zipcode"
+                        register={register}
+                        error={errors.zipcode}
+                        rules={{required: "Postcode is verplicht"}}
+                    />
+
+
+                    <label>
+                        Bezorgfrequentie
+                        <select {...register("deliveryFrequency")}>
+                            <option value="every week">Iedere week</option>
+                            <option value="every 2 weeks">Om de week</option>
+                            <option value="every month">Iedere maand</option>
                         </select>
                     </label>
-                    <label htmlFor="timeSlot-field">
-                        <input type="radio" id="dayTime" name="choice" value="Overdag" required />
-                        Overdag
-                    </label>
-                    <label htmlFor="timeSlot-field">
-                        <input type="radio" id="evening" name="choice" value="'s Avonds" />
-                        's Avonds
-                    </label>
-                    <label htmlFor="suggestions-field">
+
+                    <RadioGroup
+                        label="Bezorgmoment"
+                        name="deliveryWindow"
+                        options={["Overdag", "'s Avonds"]}
+                        register={register}
+                        error={errors.deliveryWindow}
+                        rules={{required: "Bezorgmoment is verplicht"}}
+                    />
+
+
+                    <label>
                         Opmerking
-                        <textarea name="suggestion" id="suggestion-field" cols="30" rows="6"></textarea>
+                        <textarea {...register("suggestion")} rows="4"/>
                     </label>
-                    <label htmlFor="terms-field">
-                        <input type="checkbox" id="terms-field" name="terms" required /> Ik ga akkoord met de voorwaarden
-                    </label>
-                    <button type={"submit"}>Verzend</button>
+
+                    <CheckboxInput
+                        label="Ik ga akkoord met de voorwaarden"
+                        name="terms"
+                        register={register}
+                        error={errors.terms}
+                        rules={{required: "Je moet akkoord gaan met de voorwaarden"}}
+                    />
+
+                    <Button
+                        type="submit"
+                        disabled={totalFruits === 0}>
+                        Verzend
+                    </Button>
+
+
                 </form>
             </section>
-
         </>
-    )
+    );
 }
 
-export default App
+export default App;
