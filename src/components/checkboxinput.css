@@ -1,0 +1,28 @@
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.error-message {
+    font-size: 13px;
+    color: #e63946;
+    margin-top: 6px;
+}

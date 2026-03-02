@@ -1,22 +1,35 @@
-function Counter({label, name, value, onChange}) {
+import "./counter.css";
+
+function Counter({ label, name, value, onChange }) {
     return (
-        <article>
-            <h2>{label}</h2>
-            <button
-                type="button"
-                name={name}
-                value={-1}
-                onClick={onChange}
-                disabled={value === 0}>-
-            </button>
-            <p>{value}</p>
-            <button
-                type="button"
-                name={name}
-                value={1}
-                onClick={onChange}>+
-            </button>
-        </article>
+        <div className="counter">
+            <span className="counter-label">{label}</span>
+
+            <div className="counter-controls">
+                <button
+                    type="button"
+                    name={name}
+                    value={-1}
+                    onClick={onChange}
+                    disabled={value === 0}
+                    className="counter-button"
+                >
+                    −
+                </button>
+
+                <span className="counter-value">{value}</span>
+
+                <button
+                    type="button"
+                    name={name}
+                    value={1}
+                    onClick={onChange}
+                    className="counter-button"
+                >
+                    +
+                </button>
+            </div>
+        </div>
     );
 }
 

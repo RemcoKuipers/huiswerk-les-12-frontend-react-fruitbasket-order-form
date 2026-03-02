@@ -1,0 +1,33 @@
+.button {
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.button-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.button-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.button-secondary {
+    background-color: #f1f3f5;
+    color: var(--text-dark);
+}
+
+.button-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

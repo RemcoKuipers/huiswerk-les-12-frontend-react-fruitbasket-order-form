@@ -52,7 +52,7 @@ function App() {
     const totalFruits = Object.values(fruits).reduce((a, b) => a + b, 0);
 
     return (
-        <>
+        <div className="App">
             <h1>Fruitmand bezorgservice</h1>
 
             <section>
@@ -89,9 +89,9 @@ function App() {
 
                     <TextInput
                         label="Voornaam"
-                        name="fistName"
+                        name="firstName"
                         register={register}
-                        error={errors.fistName}
+                        error={errors.firstName}
                         rules={{required: "Voornaam is verplicht"}}
                     />
 
@@ -127,7 +127,7 @@ function App() {
 
                     <label>
                         Bezorgfrequentie
-                        <select {...register("deliveryFrequency")}>
+                        <select {...register("deliveryFrequency", {required: "Maak een keuze"})}>
                             <option value="every week">Iedere week</option>
                             <option value="every 2 weeks">Om de week</option>
                             <option value="every month">Iedere maand</option>
@@ -166,7 +166,7 @@ function App() {
 
                 </form>
             </section>
-        </>
+        </div>
     );
 }
 
